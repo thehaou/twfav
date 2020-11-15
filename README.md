@@ -1,3 +1,13 @@
+## Why?
+On most websites, when you right click to save the image, it saves it under a name that you can use to find the original link (for example, deviantArt and pixiv, they both name their files reasonably). 
+
+But Twitter just kind of goes `What? You want to save a picture? HERE, HAVE THIS GROSS FILE NAME!` 🤮 and you instantly lose hope of every knowing who originally posted it when you want to share it with your friends a year later.
+
+This is an attempt to fix that.
+
+This a browser scraper that plugs into Python to download tweet images in their largest size available, under as reasonable a name as possible, based on an account's Likes page. 
+
+
 ## Features
 Base features:
 - Exports your images from your liked tweets (on browser) into a JSON file (gifs and other animated media not included).
@@ -31,11 +41,11 @@ The configs for this are a little rough, you may need to tweak some of the confi
 - When it is done running, your browser will prompt you to save the file. Save it in the same directory as this README.
 ![image info](./README_images/save_json.png)
 - ⚠️ For Chrome at least, you must stay on the Twitter likes page. Switching to another tab or to another application will cause the script to quit early (because it keeps fetching image data until it can't scroll the page any further). So block out some time to let your computer spin and run this. ⚠️
-- Depending on how many likes you have, this could take a long time. [Twitter allows you to fetch 180 times on the liked page per 15 minute period](https://developer.twitter.com/en/docs/twitter-api/v1/rate-limits). 
+- Depending on how many likes you have, this could take a long time. [Twitter allows you to fetch 180 times on the Likes page per 15 minute period](https://developer.twitter.com/en/docs/twitter-api/v1/rate-limits). 
     - For example, on my browser + monitor, Twitter gives me 10 tweets every time I scroll further down ("10 tweets per batch"). 
     - This means I can fetch 10 * 180 = 1800 tweets per 15 minute period. Once you hit the 180 GET request limit, `tweet_snippet.js` will automatically impose a 15-minute cooldown.
     - So if I have 3000 liked tweets, I will hit one 15-minute cooldown period running this.
-    - You can use these calculations to estimate how long this program will run on your liked page.
+    - You can use these calculations to estimate how long this program will run on your Liked page.
 - You can adjust `delay` in `tweet_snippet.js` to match your internet/browser speed. If you're in a slow internet household, you will want to bump up `delay` to maybe 2x of how long it takes you to load a new part of your timeline.
 
 #### Actually downloading the images
