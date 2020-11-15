@@ -1,6 +1,6 @@
 ## Features
 Base features:
-- Exports your liked tweets (on browser) into a JSON file.
+- Exports your images from your liked tweets (on browser) into a JSON file (gifs and other animated media not included).
 - Using the JSON file, fetches the tweet images and saves them with a naming convention that makes it easy to reconstruct the tweet URL.
 
 Full features:
@@ -17,12 +17,16 @@ Full features:
 - Python 3+ (covers full functionality)
 
 ## Usage
+The configs for this are a little rough, you may need to tweak some of the configs in `tweet_snippet.js`.
+
 #### Getting the image information
 - Go to your likes page: `https://twitter.com/<your account handle here>/likes`
 - On your browser of choice, open up the Snippets panel. Google how to do this if you don't know how; on Chrome at least it's under Sources --> Snippets.
-- Copy + paste the contents of `tweet_snippet`.js into a new Snippet.
+- Copy + paste the contents of `tweet_snippet.js` into a new Snippet.
 - Right click on the Snippet to run it.
+![image info](./README_images/start.png)
 - When it is done running, your browser will prompt you to save the file. Save it in the same directory as this README.
+![image info](./README_images/save_json.png)
 - ⚠️ For Chrome at least, you must stay on the Twitter likes page. Switching to another tab or to another application will cause the script to quit early (because it keeps fetching image data until it can't scroll the page any further). So block out some time to let your computer spin and run this. ⚠️
 - Depending on how many likes you have, this could take a long time. [Twitter allows you to fetch 180 times on the liked page per 15 minute period](https://developer.twitter.com/en/docs/twitter-api/v1/rate-limits). 
     - For example, on my browser + monitor, Twitter gives me 10 tweets every time I scroll further down ("10 tweets per batch"). 

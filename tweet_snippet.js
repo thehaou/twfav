@@ -1,4 +1,4 @@
-// 0. setup
+// setup
 var tweetTotalList = [];
 var tweetCurrentList = [];
 
@@ -11,9 +11,9 @@ var delay = 3000; // in milliseconds. adjust if your browser takes longer than 3
 var timeoutDelay = 60 * 15 * 1000; // 15 min
 var waiting = false;
 
-var previousStatusCheckpoint = ''; // if we've already collected up to a certain point, stop once we run out of new stuff // TODO this needs testing; 1307348783517237248
+var previousStatusCheckpoint = ''; // // TODO NOT IMPLEMENTED YET; fetches the delta up to the provided status ID
 
-// 0.5 helper function from http://bgrins.github.io/devtools-snippets/#console-save
+// helper function from http://bgrins.github.io/devtools-snippets/#console-save
 console.log('beginning; will translate tweets every ' + delay/1000 + ' seconds');
 (function(console) {
 
@@ -45,7 +45,7 @@ console.log('beginning; will translate tweets every ' + delay/1000 + ' seconds')
 })(console)
 
 var iID = setInterval(function scrape() {
-        // 7. stop processing (and save) if the height hasn't changed
+        // stop processing (and save) if the DOM height hasn't changed
         if (sh == document.documentElement.scrollHeight && !waiting) {
             console.log('reached the bottom, saving JSON and stopping');
             console.save(tweetTotalList, 'tweets.json');
@@ -54,7 +54,7 @@ var iID = setInterval(function scrape() {
             return;
         }
 
-        // 6. if request limit reached, pause ingestion for 15 min
+        // if request limit reached, pause ingestion for 15 min
         if (requestCounter == requestLimit) {
             clearInterval(iID);
             requestCounter = 0;
@@ -73,7 +73,7 @@ var iID = setInterval(function scrape() {
         }
 
 
-        // 1. turn image tweets into JSON (the image downloading happens separately in main.py)
+        // turn image tweets into JSON (the image downloading happens separately in main.py)
         var dateTime = '';
         var batchNum = 0;
         var linkEls = document.querySelectorAll('[role="link"]')
@@ -98,8 +98,8 @@ var iID = setInterval(function scrape() {
 
             var imageEl = linkEl.querySelector('[alt="Image"]');
 
-            // 3. from within the node, get the media link; if there is no media link, skip because it's not an image.
-            // Note this currently skips gifs and other animated media as well.
+            // from within the DOM node, get the media link; if there is no media link, skip because it's not an image.
+            // note this currently skips gifs and other animated media as well.
             if (imageEl !== null) {
                 let httpsSplit = linkEl.href.split('/', 6)
                 let username = httpsSplit[3];
@@ -107,7 +107,7 @@ var iID = setInterval(function scrape() {
                 // Twitter default compression is ugly - we'll try and fetch the "large" version of the image
                 let imageURL = imageEl.src.replace(/name=.*/gi, 'name=large');
 
-                // 3.5 check for early execution end (we've reached stuff already parsed)
+                // TODO NOT IMPLEMENTED YET; check for early execution end (we've reached stuff already parsed)
                 if (status == previousStatusCheckpoint) {
                     console.log('reached tweet that has already been parsed, halting');
                     console.save(tweetTotalList, 'tweets.json');
@@ -126,7 +126,7 @@ var iID = setInterval(function scrape() {
             }
         }
 
-        // 5. scroll down the page if the batch is complete
+        // scroll down the page if the batch is complete
         console.log('will start a new batch');
         console.log(tweetTotalList);
 
