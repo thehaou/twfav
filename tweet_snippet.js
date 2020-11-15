@@ -2,12 +2,12 @@
 var tweetTotalList = [];
 var tweetCurrentList = [];
 
-var testStop = 2; // this is for testing purposes (stop execution early)
+var testStop = 2; // this is for testing purposes (stops execution early)
 var sh = 0;
 
 var requestLimit = 170; // technically 180, but we'll do 175 to account for initial loading of the page
 var requestCounter = 0;
-var delay = 3000; // 3000ms
+var delay = 3000; // in milliseconds. adjust if your browser takes longer than 3s to load a new batch of images
 var timeoutDelay = 60 * 15 * 1000; // 15 min
 var waiting = false;
 
@@ -73,7 +73,7 @@ var iID = setInterval(function scrape() {
         }
 
 
-        // 1. turn image tweets into JSON (we'll figure out image download later)
+        // 1. turn image tweets into JSON (the image downloading happens separately in main.py)
         var dateTime = '';
         var batchNum = 0;
         var linkEls = document.querySelectorAll('[role="link"]')
@@ -85,7 +85,7 @@ var iID = setInterval(function scrape() {
             let child = linkEl.getElementsByTagName('time')[0];
             if (child !== undefined) {
                 dateTime = child.dateTime;
-                batchNum = 0;
+                batchNum = 0; // for tweets with more than one image attached - this will uniquely identify the children
 
                 // 4. add to the total list if previous elements exist
                 if (tweetCurrentList.length !== 0) {
@@ -98,20 +98,22 @@ var iID = setInterval(function scrape() {
 
             var imageEl = linkEl.querySelector('[alt="Image"]');
 
-            // 3. from within the node, get the media link; if there is no media link, skip
+            // 3. from within the node, get the media link; if there is no media link, skip because it's not an image.
+            // Note this currently skips gifs and other animated media as well.
             if (imageEl !== null) {
                 let httpsSplit = linkEl.href.split('/', 6)
                 let username = httpsSplit[3];
                 let status = httpsSplit[5];
+                // Twitter default compression is ugly - we'll try and fetch the "large" version of the image
                 let imageURL = imageEl.src.replace(/name=.*/gi, 'name=large');
 
                 // 3.5 check for early execution end (we've reached stuff already parsed)
                 if (status == previousStatusCheckpoint) {
-                        console.log('reached tweet that has already been parsed, halting');
-                        console.save(tweetTotalList, 'tweets.json');
-                        console.log('transformed a total of ' + tweetTotalList.length + ' pictures into JSON');
-                        clearInterval(iID);
-                        return;
+                    console.log('reached tweet that has already been parsed, halting');
+                    console.save(tweetTotalList, 'tweets.json');
+                    console.log('transformed a total of ' + tweetTotalList.length + ' pictures into JSON');
+                    clearInterval(iID);
+                    return;
                 }
 
                 tweetCurrentList.push({
@@ -133,7 +135,7 @@ var iID = setInterval(function scrape() {
 
         requestCounter += 1;
 
-        // following is for testing purposes (stop execution early)
+        // following is for testing purposes (stops execution early)
 //         testStop -= 1;
 //         if (testStop == 0) {
 //             console.log('stopping for testing purposes');
