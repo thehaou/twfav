@@ -1,7 +1,7 @@
 ## Why?
 On most websites, when you right click to save the image, it saves it under a name that you can use to find the original link (for example, deviantArt and pixiv, they both name their files reasonably). 
 
-But Twitter just kind of goes `What? You want to save a picture? HERE, HAVE THIS GROSS FILE NAME!` 🤮 and you instantly lose hope of every knowing who originally posted it when you want to share it with your friends a year later.
+But Twitter just kind of goes `What? You want to save a picture? HERE, HAVE THIS GROSS FILE NAME!` 🤮 ...and you instantly lose hope of ever knowing who originally posted it when you want to share it with your friends a year later.
 
 This is an attempt to fix that.
 

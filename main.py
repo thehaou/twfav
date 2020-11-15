@@ -7,7 +7,7 @@ import urllib.request  # python3 only
 
 def load_json_file():
     """
-    Expects a file named tweets.json which is produced by running 'tweet_snippet.js on your browser.
+    Expects a file named tweets.json which is produced by running tweet_snippet.js on your browser.
     Please save that file to twfav's top level directory (same level as this file).
     :return:
     """
