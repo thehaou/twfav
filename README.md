@@ -12,9 +12,12 @@ Full features:
 - For full functionality: 
     - Create a Python virtualenv on Python3.5+ (call it "twfav" or whatever you'd like). If you've never created a virtualenv, follow [mkvirtualenv-win](https://pypi.org/project/virtualenvwrapper-win/) instructions.    
     - On your new virtualenv, run pip install win32-setctime
+    - uncomment the `# Uncomment for Windows` section in `main.py`
 
 ### Mac
-- Python 3+ (covers full functionality)
+- Python 3+
+- For full functionality:
+    - uncomment the `# Uncomment for Mac` section in `main.py`
 
 ## Usage
 The configs for this are a little rough, you may need to tweak some of the configs in `tweet_snippet.js`.
@@ -38,7 +41,22 @@ The configs for this are a little rough, you may need to tweak some of the confi
 #### Actually downloading the images
 - Using python3+ (or while working on your virtualenv if you are on Windows), run `main.py`. This will take a while.
 - Images will be populated under `/images`. 
+- If using full functionality, file creation will also be updated to match the tweet upload date. Example:
+![image info](./README_images/example_output.png) 
 
+#### Reconstructing the original tweet URL
+The format of the image saved is `twitter_<account handle>_<status ID>_<batch number>`
+* `account_handle`: what comes after @
+* `status ID`: tweet identifier
+* `batch number`: if the tweet has multiple images posted, batch_number corresponds to the individual images.
+
+By default batch number is 0 for tweets with only one image.
+
+![image info](./README_images/batch.png) 
+
+Put all together, this matches the twitter URL format of `https://twitter.com/<account handle>/status/<status ID>`
+
+Example: `twitter_dodonpahchi_1011217603698704384_0` becomes `https://twitter.com/dodonpahchi/status/1011217603698704384`, etc.
 
 #### Notes
 I set up the JSON image fetching via browser + JavaScript because I didn't want to deal with Twitter API's authentication and limits, but for people with a truly insane amount of images liked they want to download, Twitter API is probably a necessity or else their browser will crash. 
